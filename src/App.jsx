@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Github, Linkedin, Mail, ArrowUpRight, Copy, Check, Send, Download } from "lucide-react";
+
+import {
+  GitHub,
+  Linkedin,
+  Mail,
+  ArrowUpRight,
+  Copy,
+  Check,
+  Send,
+  Download,
+} from "lucide-react";
 
 const SKILLS = [
   { name: "Java", group: "Language" },
@@ -672,7 +682,7 @@ export default function Portfolio() {
               <Linkedin size={15} /> LinkedIn
             </a>
             <a className="contact-link" href="#" target="_blank" rel="noreferrer">
-              <Github size={15} /> GitHub
+              <GitHub size={15} /> GitHub
             </a>
             <a className="contact-link" href={`tel:${phone}`}>{phone}</a>
           </div>
