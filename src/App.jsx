@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import {
-  GitHub,
-  Linkedin,
   Mail,
   ArrowUpRight,
   Copy,
@@ -10,6 +8,8 @@ import {
   Send,
   Download,
 } from "lucide-react";
+
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const SKILLS = [
   { name: "Java", group: "Language" },
@@ -679,10 +679,10 @@ export default function Portfolio() {
               {copied ? "Copied" : "Copy email"}
             </button>
             <a className="contact-link" href={linkedin} target="_blank" rel="noreferrer">
-              <Linkedin size={15} /> LinkedIn
+              <FaLinkedin size={15} /> LinkedIn
             </a>
             <a className="contact-link" href="#" target="_blank" rel="noreferrer">
-              <GitHub size={15} /> GitHub
+              <FaGithub size={15} /> GitHub
             </a>
             <a className="contact-link" href={`tel:${phone}`}>{phone}</a>
           </div>
