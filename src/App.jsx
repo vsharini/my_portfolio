@@ -1,15 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-
-import {
-  Mail,
-  ArrowUpRight,
-  Copy,
-  Check,
-  Send,
-  Download,
-} from "lucide-react";
-
-import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { Github, Linkedin, Mail, ArrowUpRight, Send, Download } from "lucide-react";
 
 const SKILLS = [
   { name: "Java", group: "Language" },
@@ -118,12 +108,10 @@ function Reveal({ children, delay = 0 }) {
 
 export default function Portfolio() {
   const [activeGroup, setActiveGroup] = useState("All");
-  const [copied, setCopied] = useState(false);
   const [path, setPath] = useState("harini");
   const [showResponse, setShowResponse] = useState(false);
   const [responseType, setResponseType] = useState("harini");
   const email = "harinisridharan10@gmail.com";
-  const phone = "+91 7010936440";
   const linkedin = "https://www.linkedin.com/in/harini-v-s-382795257";
   const resumeFileUrl = "#"; // replace with your actual resume PDF path, e.g. "/Harini_Resume.pdf"
 
@@ -134,12 +122,6 @@ export default function Portfolio() {
 
     if (cmd === "resume" || cmd === "resume.pdf") {
       setResponseType("resume");
-      const link = document.createElement("a");
-      link.href = resumeFileUrl;
-      link.download = "Harini_V_S_Resume.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
     } else if (cmd === "harini" || cmd === "") {
       setResponseType("harini");
     } else {
@@ -154,14 +136,6 @@ export default function Portfolio() {
 
   const filteredSkills =
     activeGroup === "All" ? SKILLS : SKILLS.filter((s) => s.group === activeGroup);
-
-  const copyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(email);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
-    } catch (e) {}
-  };
 
   return (
     <div className="portfolio-root">
@@ -242,6 +216,33 @@ export default function Portfolio() {
         .nav-resume:hover { background: var(--accent-soft); }
         @media (max-width: 640px) { .nav-links { display: none; } }
 
+        /* SOCIAL SIDEBAR */
+        .social-sidebar {
+          position: fixed;
+          left: 28px;
+          bottom: 0;
+          z-index: 40;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 14px;
+          padding-bottom: 24px;
+        }
+        .social-icon {
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          border: 1px solid var(--border-strong);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--ink-soft);
+          transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+        .social-icon:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
+        .social-line { width: 1px; height: 90px; background: var(--border-strong); margin-top: 4px; }
+        @media (max-width: 900px) { .social-sidebar { display: none; } }
+
         /* HERO */
         .hero {
           min-height: 84vh;
@@ -262,6 +263,13 @@ export default function Portfolio() {
           color: var(--ink);
         }
         .hero-name .accent { color: var(--accent); }
+        .hero-role {
+          font-size: clamp(1.75rem, 4vw, 2.6rem);
+          font-weight: 600;
+          color: var(--ink-soft);
+          margin: 0 0 1rem;
+          line-height: 1.1;
+        }
         .hero-tagline {
           font-size: clamp(1rem, 1.8vw, 1.15rem);
           color: var(--ink-soft);
@@ -312,6 +320,20 @@ export default function Portfolio() {
           padding: 0 13px 11px;
           font-style: italic;
         }
+        .hero-cta {
+          display: inline-block;
+          margin-top: 1.75rem;
+          padding: 12px 22px;
+          border: 1.5px solid var(--accent);
+          border-radius: 8px;
+          color: var(--accent);
+          font-weight: 600;
+          font-size: 14px;
+          text-decoration: none;
+          width: fit-content;
+          transition: background 0.2s ease, color 0.2s ease;
+        }
+        .hero-cta:hover { background: var(--accent); color: var(--bg); }
         .send-btn {
           background: var(--accent);
           color: #1A1710;
@@ -425,8 +447,9 @@ export default function Portfolio() {
         .skill-btn:hover { border-color: var(--accent); }
 
         /* PROJECTS */
-        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-        .project-card { padding: 1.6rem; display: flex; flex-direction: column; }
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; align-items: stretch; }
+        .project-grid > .reveal { display: flex; height: 100%; }
+        .project-card { padding: 1.6rem; display: flex; flex-direction: column; flex: 1; }
         .project-id { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--ink-soft); margin-bottom: 0.8rem; }
         .project-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; margin: 0 0 0.55rem; }
         .project-blurb { font-size: 13.5px; color: var(--ink-soft); line-height: 1.6; margin: 0 0 1.2rem; flex-grow: 1; }
@@ -498,10 +521,21 @@ export default function Portfolio() {
         </div>
       </nav>
 
+      <div className="social-sidebar">
+        <a className="social-icon" href="#" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <Github size={17} />
+        </a>
+        <a className="social-icon" href={linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+          <Linkedin size={17} />
+        </a>
+        <span className="social-line" />
+      </div>
+
       {/* HERO */}
       <section className="hero">
-        <div className="hero-eyebrow">Backend Developer</div>
+        <div className="hero-eyebrow">Hi, my name is</div>
         <h1 className="hero-name display">Harini <span className="accent">V S</span></h1>
+        <h2 className="hero-role display">Backend Developer.</h2>
         <p className="hero-tagline">
           I build clean, secure APIs — currently exploring where engineering meets product thinking.
         </p>
@@ -549,8 +583,8 @@ export default function Portfolio() {
               <div className="response-line" style={{ transitionDelay: "120ms" }}>&nbsp;&nbsp;<span className="resp-key">"file"</span>: <span className="resp-val">"Harini_V_S_Resume.pdf"</span>,</div>
               <div className="response-line" style={{ transitionDelay: "190ms" }}>&nbsp;&nbsp;<span className="resp-key">"status"</span>: <span className="resp-val">"ready"</span></div>
               <div className="response-line" style={{ transitionDelay: "260ms" }}>{"}"}</div>
-              <a className="response-download-link" href={resumeFileUrl} download="Harini_V_S_Resume.pdf">
-                <Download size={13} /> Download Harini_V_S_Resume.pdf
+              <a className="response-download-link" href={resumeFileUrl} target="_blank" rel="noreferrer">
+                <Download size={13} /> View / Download Resume
               </a>
             </>
           )}
@@ -564,6 +598,8 @@ export default function Portfolio() {
             </>
           )}
         </div>
+
+        <a className="hero-cta" href="#projects">Check out my projects</a>
       </section>
 
       {/* SKILLS */}
@@ -674,17 +710,12 @@ export default function Portfolio() {
             <a className="contact-link" href={`mailto:${email}`}>
               <Mail size={15} /> Email
             </a>
-            <button className="contact-link" onClick={copyEmail}>
-              {copied ? <Check size={15} /> : <Copy size={15} />}
-              {copied ? "Copied" : "Copy email"}
-            </button>
             <a className="contact-link" href={linkedin} target="_blank" rel="noreferrer">
-              <FaLinkedin size={15} /> LinkedIn
+              <Linkedin size={15} /> LinkedIn
             </a>
             <a className="contact-link" href="#" target="_blank" rel="noreferrer">
-              <FaGithub size={15} /> GitHub
+              <Github size={15} /> GitHub
             </a>
-            <a className="contact-link" href={`tel:${phone}`}>{phone}</a>
           </div>
         </Reveal>
       </section>
